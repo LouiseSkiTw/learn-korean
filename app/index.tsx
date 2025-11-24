@@ -1,59 +1,38 @@
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Text } from '@/components/ui/text';
-import { Link, Stack } from 'expo-router';
-import { MoonStarIcon, StarIcon, SunIcon } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
+import { MoonStarIcon, SunIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import * as React from 'react';
-import { Image, type ImageStyle, View } from 'react-native';
-
-const LOGO = {
-  light: require('@/assets/images/react-native-reusables-light.png'),
-  dark: require('@/assets/images/react-native-reusables-dark.png'),
-};
-
-const SCREEN_OPTIONS = {
-  title: 'React Native Reusables',
-  headerTransparent: true,
-  headerRight: () => <ThemeToggle />,
-};
-
-const IMAGE_STYLE: ImageStyle = {
-  height: 76,
-  width: 76,
-};
+import { View } from 'react-native';
+import WordBank from './components/WordBank';
 
 export default function Screen() {
-  const { colorScheme } = useColorScheme();
+  const [value, setValue] = React.useState('home');
+  const router = useRouter();
 
   return (
-    <>
-      <Stack.Screen options={SCREEN_OPTIONS} />
-      <View className="flex-1 items-center justify-center gap-8 p-4">
-        <Image source={LOGO[colorScheme ?? 'light']} style={IMAGE_STYLE} resizeMode="contain" />
-        <View className="gap-2 p-4">
-          <Text className="ios:text-foreground font-mono text-sm text-muted-foreground">
-            1. Edit <Text variant="code">app/index.tsx</Text> to get started.
-          </Text>
-          <Text className="ios:text-foreground font-mono text-sm text-muted-foreground">
-            2. Save to see your changes instantly.
-          </Text>
+    <Tabs value={value} onValueChange={setValue} className="w-[400px]">
+      <TabsList>
+        <TabsTrigger value="home">
+          <Text>Home</Text>
+        </TabsTrigger>
+        <TabsTrigger value="words">
+          <Text>Word Bank</Text>
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="home">
+        <View>
+          <Text>Lets Learn!</Text>
+          <Button onPress={() => router.push('/select')}>Learn</Button>
         </View>
-        <View className="flex-row gap-2">
-          <Link href="https://reactnativereusables.com" asChild>
-            <Button>
-              <Text>Browse the Docs</Text>
-            </Button>
-          </Link>
-          <Link href="https://github.com/founded-labs/react-native-reusables" asChild>
-            <Button variant="ghost">
-              <Text>Star the Repo</Text>
-              <Icon as={StarIcon} />
-            </Button>
-          </Link>
-        </View>
-      </View>
-    </>
+      </TabsContent>
+      <TabsContent value="words">
+        <WordBank />
+      </TabsContent>
+    </Tabs>
   );
 }
 
