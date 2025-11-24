@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rnr",
-    "slug": "rnr",
+    "name": "Learn Korean",
+    "slug": "learn_korean",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
