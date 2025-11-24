@@ -14,7 +14,7 @@ export default function Screen() {
   const router = useRouter();
 
   return (
-    <Tabs value={value} onValueChange={setValue} className="w-[400px]">
+    <Tabs value={value} onValueChange={setValue} className="mt-10 w-[400px] pl-4 pr-3">
       <TabsList>
         <TabsTrigger value="home">
           <Text>Home</Text>
@@ -26,7 +26,9 @@ export default function Screen() {
       <TabsContent value="home">
         <View>
           <Text>Lets Learn!</Text>
-          <Button onPress={() => router.push('/select')}>Learn</Button>
+          <Button onPress={() => router.push('/select')}>
+            <Text>Learn</Text>
+          </Button>
         </View>
       </TabsContent>
       <TabsContent value="words">

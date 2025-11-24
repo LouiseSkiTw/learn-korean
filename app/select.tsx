@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Platform, Button } from 'react-native';
+import { View, Platform, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
+import { Button } from '@/components/ui/button';
 
 const categories = [
   { label: 'All', value: 'all' },
@@ -45,14 +46,14 @@ export default function WordSelectionPage() {
       {/* Button is separated from Select so it always renders */}
       <View style={{ marginTop: 30 }}>
         <Button
-          title="Go to Quiz"
           onPress={() =>
             router.push({
               pathname: './quiz',
               params: { category: selectedCategory },
             })
-          }
-        />
+          }>
+          <Text>Go to Quiz</Text>
+        </Button>
       </View>
     </View>
   );

@@ -4,7 +4,7 @@ import Swiper from 'react-native-deck-swiper';
 import { data } from './quizData';
 import { SwipeStore, useSwipeStore } from '@/app/store/store';
 import { useLocalSearchParams } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Card from './components/Card';
 
 export const SwipeCard = () => {
@@ -37,6 +37,11 @@ export const SwipeCard = () => {
       disableTopSwipe
       disableBottomSwipe
       verticalSwipe={false}
+      onSwipedAll={() => (
+        <View>
+          <Text>No more cards to display</Text>
+        </View>
+      )}
       showSecondCard
       stackSize={2}
       renderCard={(card) => <Card card={card} />}
