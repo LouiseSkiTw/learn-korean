@@ -1,7 +1,8 @@
 // store/swipeStore.ts
 import { create } from 'zustand';
 import { QuizItem } from '../quizData';
-export type SwipeStore = {
+
+type SwipeStore = {
   swipedLeft: QuizItem[];
   swipedRight: QuizItem[];
   swipeLeft: (card: QuizItem) => void;
@@ -9,7 +10,7 @@ export type SwipeStore = {
   resetSwipes: () => void;
 };
 
-export const useSwipeStore = create<SwipeStore>((set) => ({
+const useSwipeStore = create<SwipeStore>((set) => ({
   swipedLeft: [],
   swipedRight: [],
   swipeLeft: (card: QuizItem) =>
@@ -22,3 +23,6 @@ export const useSwipeStore = create<SwipeStore>((set) => ({
     })),
   resetSwipes: () => set({ swipedLeft: [], swipedRight: [] }),
 }));
+
+export type { SwipeStore };
+export default useSwipeStore;

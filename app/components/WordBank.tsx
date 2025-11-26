@@ -1,7 +1,7 @@
 import { Text } from '@/components/ui/text';
 import * as React from 'react';
-import { useSwipeStore } from '../store/store';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import useSwipeStore from '../store/store';
 
 export default function WordBank() {
   const [value, setValue] = React.useState<string>('known');

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Platform, Text } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from '@/components/ui/button';
+import { useColorScheme } from 'nativewind';
 
 const categories = [
   { label: 'All', value: 'all' },
@@ -24,18 +24,16 @@ const categories = [
 export default function WordSelectionPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const router = useRouter();
+  const { colorScheme } = useColorScheme();
 
-  const insets = useSafeAreaInsets();
-  const contentInsets = {
-    top: insets.top,
-    bottom: Platform.select({ ios: insets.bottom, android: insets.bottom + 24 }),
-    left: 12,
-    right: 12,
-  };
+  const isDarkTheme = colorScheme === 'dark';
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: 20, marginTop: 20 }}>
       <Picker
+        dropdownIconColor={isDarkTheme ? 'white' : ''}
+        selectionColor={isDarkTheme ? 'white' : ''}
+        style={isDarkTheme ? { color: 'white' } : ''}
         selectedValue={selectedCategory}
         onValueChange={(value) => setSelectedCategory(value)}>
         {categories.map((item) => (
@@ -46,6 +44,7 @@ export default function WordSelectionPage() {
       {/* Button is separated from Select so it always renders */}
       <View style={{ marginTop: 30 }}>
         <Button
+          style={!isDarkTheme ? {} : ''}
           onPress={() =>
             router.push({
               pathname: './quiz',

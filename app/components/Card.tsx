@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FlipCard from 'react-native-flip-card';
 import { QuizItem } from '../quizData';
 
@@ -8,21 +8,32 @@ type QuizPageProps = {
 };
 
 const Card = ({ card }: QuizPageProps) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [card]);
+
   return (
     <FlipCard
       flipHorizontal
       flipVertical={false}
-      clickable
-      friction={8}
+      flip={isFlipped}
+      clickable={false}
+      friction={5}
       perspective={1000}
       style={styles.card}>
       {/* Front side */}
       <View style={styles.face}>
-        <Text style={styles.question}>{card.word}</Text>
+        <Text style={styles.question} onPress={() => setIsFlipped(true)}>
+          {card.word}
+        </Text>
       </View>
       {/* Back side */}
       <View style={[styles.face, styles.back]}>
-        <Text style={styles.answer}>{card.english}</Text>
+        <Text style={styles.answer} onPress={() => setIsFlipped(false)}>
+          {card.english}
+        </Text>
       </View>
     </FlipCard>
   );

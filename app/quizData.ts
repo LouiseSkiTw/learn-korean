@@ -1,4 +1,4 @@
-export type QuizItem = {
+type QuizItem = {
   id: number;
   hiddenNumbering: number;
   frequencyRank: string;
@@ -9,7 +9,7 @@ export type QuizItem = {
   english: string;
 };
 
-export const data = [
+const data = [
   {
     id: 1,
     hiddenNumbering: 1129,
@@ -65317,3 +65317,7 @@ export const data = [
     english: 'Be forcible,powerful',
   },
 ];
+
+export type { QuizItem };
+
+export default data;

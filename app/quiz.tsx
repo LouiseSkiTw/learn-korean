@@ -1,11 +1,11 @@
 import React from 'react';
 import Swiper from 'react-native-deck-swiper';
 
-import { data } from './quizData';
-import { SwipeStore, useSwipeStore } from '@/app/store/store';
 import { useLocalSearchParams } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
 import Card from './components/Card';
+import data from './quizData';
+import useSwipeStore, { SwipeStore } from './store/store';
 
 export const SwipeCard = () => {
   const { category } = useLocalSearchParams<{ category: string }>();
@@ -37,13 +37,13 @@ export const SwipeCard = () => {
       disableTopSwipe
       disableBottomSwipe
       verticalSwipe={false}
+      animateOverlayLabelsOpacity
       onSwipedAll={() => (
         <View>
           <Text>No more cards to display</Text>
         </View>
       )}
       showSecondCard
-      stackSize={2}
       renderCard={(card) => <Card card={card} />}
       overlayLabels={{
         left: {
