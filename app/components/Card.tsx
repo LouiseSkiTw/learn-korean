@@ -10,10 +10,6 @@ type QuizPageProps = {
 const Card = ({ card }: QuizPageProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  useEffect(() => {
-    setIsFlipped(false);
-  }, [card]);
-
   return (
     <FlipCard
       flipHorizontal
@@ -67,12 +63,16 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
+    padding: 40,
+    backgroundColor: 'red',
   },
   answer: {
     //english
     fontSize: 32,
     color: '#333',
     textAlign: 'center',
+    padding: 30,
+    backgroundColor: 'red',
   },
 });
 

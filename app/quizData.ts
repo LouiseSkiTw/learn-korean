@@ -4860,17 +4860,6 @@ const data = [
     english: 'Environmental pollution',
   },
   {
-    id: 445,
-    hiddenNumbering: 5968,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '공화국의 영원한 주석',
-    romanised: 'gonghwagugui yeongwonhan juseok',
-
-    classification: 'noun',
-    english: 'Eternal President of the Republic',
-  },
-  {
     id: 446,
     hiddenNumbering: 5486,
     frequencyRank: '9466',
@@ -19606,17 +19595,6 @@ const data = [
     english: 'Spicy',
   },
   {
-    id: 1799,
-    hiddenNumbering: 5978,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '맵시난다',
-    romanised: 'maepsinanda',
-
-    classification: 'adjective',
-    english: 'stylish, cool (North)',
-  },
-  {
     id: 1800,
     hiddenNumbering: 1576,
     frequencyRank: '1674',
@@ -24609,17 +24587,6 @@ const data = [
 
     classification: 'verb',
     english: 'Unclothe, undress',
-  },
-  {
-    id: 2256,
-    hiddenNumbering: 5967,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '벗꽃',
-    romanised: 'beoskkocc',
-
-    classification: 'noun',
-    english: 'cherry blossom',
   },
   {
     id: 2257,
@@ -43349,17 +43316,6 @@ const data = [
     english: 'To be great, mighty, grand',
   },
   {
-    id: 3971,
-    hiddenNumbering: 5972,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '위대한 수령',
-    romanised: 'widaehan suryeong',
-
-    classification: 'noun',
-    english: 'Great Leader',
-  },
-  {
     id: 3972,
     hiddenNumbering: 4815,
     frequencyRank: '6463',
@@ -46450,17 +46406,6 @@ const data = [
 
     classification: 'verb',
     english: 'To rise to one’s feet, stand up',
-  },
-  {
-    id: 4255,
-    hiddenNumbering: 5979,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '일없습니다',
-    romanised: 'ileopsseupnida',
-
-    classification: 'expression',
-    english: '"No worries" (North) "That\'s useless" (South)',
   },
   {
     id: 4256,
@@ -51367,17 +51312,6 @@ const data = [
     english: 'condition,stipulation',
   },
   {
-    id: 4705,
-    hiddenNumbering: 5966,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '조국통일 만세!',
-    romanised: 'joguktongil manse!',
-
-    classification: 'expression',
-    english: '"Long Live the Reunification of the Homeland"',
-  },
-  {
     id: 4707,
     hiddenNumbering: 4157,
     frequencyRank: '5142',
@@ -52635,17 +52569,6 @@ const data = [
 
     classification: 'verb',
     english: 'To park',
-  },
-  {
-    id: 4822,
-    hiddenNumbering: 5976,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '주체',
-    romanised: 'juche',
-
-    classification: 'noun',
-    english: 'Juche (ideology of North Korea)',
   },
   {
     id: 4823,
@@ -56908,17 +56831,6 @@ const data = [
     english: 'The highest grade/class',
   },
   {
-    id: 5212,
-    hiddenNumbering: 5971,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '최고령도자',
-    romanised: 'choegoryeongdoja',
-
-    classification: 'noun',
-    english: 'Supreme Leader',
-  },
-  {
     id: 5213,
     hiddenNumbering: 278,
     frequencyRank: '278',
@@ -57884,17 +57796,6 @@ const data = [
 
     classification: 'noun',
     english: 'Cheese',
-  },
-  {
-    id: 5301,
-    hiddenNumbering: 5973,
-    frequencyRank: 'Supplemental',
-    complexity: '',
-    word: '친애하는 령도자',
-    romanised: 'chinaehaneun ryeongdoja',
-
-    classification: 'noun',
-    english: 'Dear Leader',
   },
   {
     id: 5302,

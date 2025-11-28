@@ -11,22 +11,22 @@ export default function WordBank() {
     <Tabs value={value} onValueChange={setValue} className="w-[400px]">
       <TabsList>
         <TabsTrigger value="known">
-          <Text>Known</Text>
+          <Text>Known Words</Text>
         </TabsTrigger>
         <TabsTrigger value="unknown">
-          <Text>Unknown</Text>
+          <Text>Unknown Words</Text>
         </TabsTrigger>
       </TabsList>
       <TabsContent value="known">
         {swipeRight.map((word) => (
-          <Text>
+          <Text key={word.id}>
             {word.word} - {word.english}
           </Text>
         ))}
       </TabsContent>
       <TabsContent value="unknown">
         {swipeLeft.map((word) => (
-          <Text>
+          <Text key={word.id}>
             {word.word} - {word.english}
           </Text>
         ))}

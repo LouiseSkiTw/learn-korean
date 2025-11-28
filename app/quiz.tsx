@@ -1,77 +1,112 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Swiper from 'react-native-deck-swiper';
 
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
 import Card from './components/Card';
-import data from './quizData';
 import useSwipeStore, { SwipeStore } from './store/store';
+import { getWords } from './utils/data.utils';
+import { Home, List } from 'lucide-react-native';
 
 export const SwipeCard = () => {
-  const { category } = useLocalSearchParams<{ category: string }>();
+  const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
   const swipeRight = useSwipeStore((state: SwipeStore) => state.swipeRight);
   const swipeLeft = useSwipeStore((state: SwipeStore) => state.swipeLeft);
-  const swipedLeft = useSwipeStore((state: SwipeStore) => state.swipedLeft);
-  const filteredData =
-    category === 'all'
-      ? data
-      : data
-          .filter((data) => data.classification === category)
-          .filter((item) => !swipedLeft.includes(item));
 
-  function shuffleArray<T>(array: T[]): T[] {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  }
+  const [finished, setFinished] = useState(false);
+  const router = useRouter();
 
-  const randomWords = shuffleArray(filteredData);
+  const wordsCards = getWords(category, level);
 
   return (
-    <Swiper
-      cards={randomWords}
-      backgroundColor={'#f0f0f0'}
-      disableTopSwipe
-      disableBottomSwipe
-      verticalSwipe={false}
-      animateOverlayLabelsOpacity
-      onSwipedAll={() => (
+    <View style={styles.container}>
+      <View style={styles.containerIcons}>
+        <Home
+          size={25}
+          onPress={() =>
+            router.push({
+              pathname: '/home',
+              params: { route: 'home' },
+            })
+          }
+        />
+        <List
+          size={25}
+          onPress={() =>
+            router.push({
+              pathname: '/home',
+              params: { route: 'words' },
+            })
+          }
+        />
+      </View>
+
+      {!finished || wordsCards.length > 0 ? (
+        <>
+          <Swiper
+            cards={wordsCards}
+            backgroundColor={'#f0f0f0'}
+            disableTopSwipe
+            disableBottomSwipe
+            verticalSwipe={false}
+            animateOverlayLabelsOpacity
+            onSwipedAll={() => setFinished(true)}
+            showSecondCard
+            renderCard={(card) => <Card card={card} />}
+            overlayLabels={{
+              left: {
+                style: {
+                  label: styles.overlayLeft,
+                  wrapper: styles.overlayWrapperLeft,
+                },
+              },
+              right: {
+                style: {
+                  label: styles.overlayRight,
+                  wrapper: styles.overlayWrapperRight,
+                },
+              },
+            }}
+            onSwipedRight={(index) => {
+              const card = wordsCards.at(index);
+              if (card) swipeRight(card);
+            }}
+            onSwipedLeft={(index) => {
+              const card = wordsCards.at(index);
+              if (card) swipeLeft(card);
+            }}
+          />
+        </>
+      ) : (
         <View>
-          <Text>No more cards to display</Text>
+          <Text>No more Words</Text>
         </View>
       )}
-      showSecondCard
-      renderCard={(card) => <Card card={card} />}
-      overlayLabels={{
-        left: {
-          style: {
-            label: styles.overlayLeft,
-            wrapper: styles.overlayWrapperLeft,
-          },
-        },
-        right: {
-          style: {
-            label: styles.overlayRight,
-            wrapper: styles.overlayWrapperRight,
-          },
-        },
-      }}
-      onSwipedRight={(index) => {
-        const card = randomWords.at(index);
-        if (card) swipeRight(card);
-      }}
-      onSwipedLeft={(index) => {
-        const card = randomWords.at(index);
-        if (card) swipeLeft(card);
-      }}
-    />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+  },
+  // Icons bar always visible on top
+  containerIcons: {
+    position: 'absolute',
+    top: 30,
+    left: 20,
+    right: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+
+    zIndex: 10, // ensures icons are above the swiper
+  },
+  // Swiper fills the background
+  swiper: {
+    flex: 1,
+    zIndex: 0,
+  },
   overlayLeft: {
     backgroundColor: 'rgba(255,0,0,0.7)',
     borderRadius: 8,
