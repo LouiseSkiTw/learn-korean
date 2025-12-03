@@ -1,8 +1,30 @@
-import { QuizItem } from '../quizData';
-import data from '../quizData';
-import useSwipeStore, { SwipeStore } from '../store/store';
+import { QuizItem } from './quizData';
+import data from './quizData';
+import useSwipeStore, { SwipeStore } from './store/store';
 
-export const getWords = (category: string, level: string) => {
+const categories = [
+  { label: 'All', value: 'all' },
+  { label: 'Noun', value: 'noun' },
+  { label: 'Verb', value: 'verb' },
+  { label: 'Adjective', value: 'adjective' },
+  { label: 'Adverb', value: 'adverb' },
+  { label: 'Pronoun', value: 'pronoun' },
+  { label: 'Place name', value: 'place name' },
+  { label: 'Numeral', value: 'numeral' },
+  { label: 'Interjection', value: 'interjection' },
+  { label: 'Attributive', value: 'attributive' },
+  { label: 'Auxiliary Verb', value: 'auxiliary verb' },
+  { label: 'Expression', value: 'expression' },
+];
+
+export const levelCategories = [
+  { label: 'All', value: 'all' },
+  { label: 'Beginner', value: 'beginner' },
+  { label: 'Intermediate', value: 'intermediate' },
+  { label: 'Advanced', value: 'advanced' },
+];
+
+const getWords = (category: string, level: string) => {
   const swipedLeft = useSwipeStore((state: SwipeStore) => state.swipedLeft);
 
   const filteredData =
@@ -17,7 +39,7 @@ export const getWords = (category: string, level: string) => {
   return shuffleArray(getWordsLevel ?? []);
 };
 
-export const getNumber = (categories: { label: string; value: string }[]) => {
+export const getNumber = () => {
   // Count frequencies
   const counts = data.reduce(
     (acc, item) => {
@@ -58,3 +80,4 @@ function shuffleArray<T>(array: T[]): T[] {
   }
   return shuffled;
 }
+export default getWords;

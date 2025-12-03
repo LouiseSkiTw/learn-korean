@@ -3,10 +3,10 @@ import Swiper from 'react-native-deck-swiper';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
-import Card from './components/Card';
-import useSwipeStore, { SwipeStore } from './store/store';
-import { getWords } from './utils/data.utils';
+import Card from '../../components/components/Card';
 import { Home, List } from 'lucide-react-native';
+import getWords from '../../utils/data.utils';
+import useSwipeStore, { SwipeStore } from '../../utils/store/store';
 
 export const SwipeCard = () => {
   const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
@@ -34,8 +34,8 @@ export const SwipeCard = () => {
           size={25}
           onPress={() =>
             router.push({
-              pathname: '/home',
-              params: { route: 'words' },
+              pathname: '/words',
+              params: { route: 'word' },
             })
           }
         />

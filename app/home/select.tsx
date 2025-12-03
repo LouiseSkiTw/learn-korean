@@ -4,35 +4,14 @@ import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from '@/components/ui/button';
 import { useColorScheme } from 'nativewind';
-import { getNumber } from './utils/data.utils';
-
-const categories = [
-  { label: 'All', value: 'all' },
-  { label: 'Noun', value: 'noun' },
-  { label: 'Verb', value: 'verb' },
-  { label: 'Adjective', value: 'adjective' },
-  { label: 'Adverb', value: 'adverb' },
-  { label: 'Pronoun', value: 'pronoun' },
-  { label: 'Place name', value: 'place name' },
-  { label: 'Numeral', value: 'numeral' },
-  { label: 'Interjection', value: 'interjection' },
-  { label: 'Attributive', value: 'attributive' },
-  { label: 'Auxiliary Verb', value: 'auxiliary verb' },
-  { label: 'Expression', value: 'expression' },
-];
-const levelCategories = [
-  { label: 'All', value: 'all' },
-  { label: 'Beginner', value: 'beginner' },
-  { label: 'Intermediate', value: 'intermediate' },
-  { label: 'Advanced', value: 'advanced' },
-];
+import { getNumber, levelCategories } from '../../utils/data.utils';
 
 export default function WordSelectionPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedLevel, setSelectedLevel] = useState<string>('beginner');
   const router = useRouter();
   const { colorScheme } = useColorScheme();
-  const categoriesWithNumbers = getNumber(categories);
+  const categoriesWithNumbers = getNumber();
 
   const isDarkTheme = colorScheme === 'dark';
 

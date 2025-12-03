@@ -1,25 +1,31 @@
-import '@/global.css';
+import { Tabs } from 'expo-router';
+import { HomeIcon, NotebookText } from 'lucide-react-native';
 
-import { NAV_THEME } from '@/lib/theme';
-import { ThemeProvider } from '@react-navigation/native';
-import { PortalHost } from '@rn-primitives/portal';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from 'nativewind';
+const isFocused = (focused: boolean) => (focused ? 'red' : 'black');
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
-
-export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
-
+export default function TabLayout() {
   return (
-    <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false }} />
-      <PortalHost />
-    </ThemeProvider>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { height: 80 },
+      }}>
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ size, focused }) => <HomeIcon color={isFocused(focused)} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="words"
+        options={{
+          title: 'Words',
+          tabBarIcon: ({ focused, size }) => (
+            <NotebookText color={isFocused(focused)} size={size} />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }

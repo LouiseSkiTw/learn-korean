@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import FlipCard from 'react-native-flip-card';
-import { QuizItem } from '../quizData';
+import { QuizItem } from '../../utils/quizData';
 
 type QuizPageProps = {
   card: QuizItem;

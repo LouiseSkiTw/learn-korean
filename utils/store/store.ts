@@ -1,6 +1,6 @@
 // store/swipeStore.ts
 import { create } from 'zustand';
-import { QuizItem } from '../quizData';
+import { QuizItem } from '../utils/quizData';
 
 type SwipeStore = {
   swipedLeft: QuizItem[];
