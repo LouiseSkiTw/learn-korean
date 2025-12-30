@@ -39,21 +39,25 @@ const getWords = (category: string, level: string) => {
   return shuffleArray(getWordsLevel ?? []);
 };
 
-export const getNumber = () => {
+export const getNumber = (level: string) => {
   // Count frequencies
-  const counts = data.reduce(
+  const filter =
+    level === 'all' ? data : data.filter((item) => item.complexity == mapDifficulty(level));
+
+  const counts = filter.reduce(
     (acc, item) => {
       acc[item.classification] = (acc[item.classification] || 0) + 1;
       return acc;
     },
     {} as Record<string, number>
   );
+  console.log('counts', counts);
 
   // Map counts to categories list
   const coutLabel = categories.map((cat) => ({
     label: cat.label,
     value: cat.value,
-    count: cat.value === 'all' ? data.length : counts[cat.value] || 0,
+    count: cat.value === 'all' ? filter.length : counts[cat.value] || 0,
   }));
 
   return coutLabel;
@@ -69,6 +73,19 @@ const mapLevel = (level: string, filteredData: QuizItem[] | undefined) => {
       return filteredData?.filter((data) => data.complexity === 'C');
     default:
       break;
+  }
+};
+
+const mapDifficulty = (level: string) => {
+  switch (level) {
+    case 'beginner':
+      return 'A';
+    case 'intermediate':
+      return 'B';
+    case 'advanced':
+      return 'C';
+    default:
+      return '';
   }
 };
 

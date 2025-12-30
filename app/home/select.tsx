@@ -9,7 +9,7 @@ export default function WordSelectionPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedLevel, setSelectedLevel] = useState<string>('beginner');
   const router = useRouter();
-  const categoriesWithNumbers = getNumber();
+  const categoriesWithNumbers = getNumber(selectedLevel);
 
   return (
     <View style={styles.container}>
