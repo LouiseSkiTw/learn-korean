@@ -1,33 +1,40 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FlipCard from 'react-native-flip-card';
 import { QuizItem } from '../../utils/quizData';
+import { useFlippedStore } from '@/utils/store/store';
 
 type QuizPageProps = {
   card: QuizItem;
 };
 
 const Card = ({ card }: QuizPageProps) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const isFlipped = useFlippedStore((state) => state.isFlipped);
+  const setIsFlipped = useFlippedStore((state) => state.setIsFlipped);
+  const [flip, setFlip] = useState(false);
+
+  const onClickFlip = (flip: boolean) => {
+    setFlip(flip);
+    setIsFlipped(flip);
+  };
 
   return (
     <FlipCard
+      flip={flip || isFlipped}
       flipHorizontal
       flipVertical={false}
-      flip={isFlipped}
-      clickable={false}
       friction={5}
       perspective={1000}
       style={styles.card}>
       {/* Front side */}
       <View style={styles.face}>
-        <Text style={styles.question} onPress={() => setIsFlipped(true)}>
+        <Text style={styles.question} onPress={() => onClickFlip(true)}>
           {card.word}
         </Text>
       </View>
       {/* Back side */}
       <View style={[styles.face, styles.back]}>
-        <Text style={styles.answer} onPress={() => setIsFlipped(false)}>
+        <Text style={styles.answer} onPress={() => onClickFlip(false)}>
           {card.english}
         </Text>
       </View>
@@ -45,9 +52,9 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.25,
     shadowRadius: 10,
-
     shadowOffset: { width: 0, height: 5 },
     elevation: 5, // Android shadow
+    bottom: 30,
   },
   face: {
     flex: 1,
@@ -64,7 +71,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     padding: 40,
-    backgroundColor: 'red',
   },
   answer: {
     //english
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     padding: 30,
-    backgroundColor: 'red',
+    flexWrap: 'wrap',
   },
 });
 

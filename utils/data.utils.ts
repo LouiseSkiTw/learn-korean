@@ -1,6 +1,6 @@
 import { QuizItem } from './quizData';
 import data from './quizData';
-import useSwipeStore, { SwipeStore } from './store/store';
+import { useSwipeStore, SwipeStore } from './store/store';
 
 const categories = [
   { label: 'All', value: 'all' },

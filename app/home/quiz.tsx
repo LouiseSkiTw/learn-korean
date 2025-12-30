@@ -1,46 +1,23 @@
 import React, { useState } from 'react';
 import Swiper from 'react-native-deck-swiper';
 
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
 import Card from '../../components/components/Card';
-import { Home, List } from 'lucide-react-native';
 import getWords from '../../utils/data.utils';
-import useSwipeStore, { SwipeStore } from '../../utils/store/store';
+import { useSwipeStore, SwipeStore, useFlippedStore } from '../../utils/store/store';
 
 export const SwipeCard = () => {
   const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
   const swipeRight = useSwipeStore((state: SwipeStore) => state.swipeRight);
   const swipeLeft = useSwipeStore((state: SwipeStore) => state.swipeLeft);
+  const setIsFlipped = useFlippedStore((state) => state.setIsFlipped);
 
   const [finished, setFinished] = useState(false);
-  const router = useRouter();
-
   const wordsCards = getWords(category, level);
 
   return (
     <View style={styles.container}>
-      <View style={styles.containerIcons}>
-        <Home
-          size={25}
-          onPress={() =>
-            router.push({
-              pathname: '/home',
-              params: { route: 'home' },
-            })
-          }
-        />
-        <List
-          size={25}
-          onPress={() =>
-            router.push({
-              pathname: '/words',
-              params: { route: 'word' },
-            })
-          }
-        />
-      </View>
-
       {!finished || wordsCards.length > 0 ? (
         <>
           <Swiper
@@ -70,10 +47,15 @@ export const SwipeCard = () => {
             onSwipedRight={(index) => {
               const card = wordsCards.at(index);
               if (card) swipeRight(card);
+              //remove card from deck after swipe right
+              wordsCards.splice(index, 1);
+              setIsFlipped(false);
             }}
             onSwipedLeft={(index) => {
               const card = wordsCards.at(index);
               if (card) swipeLeft(card);
+              wordsCards.splice(index, 1);
+              setIsFlipped(false);
             }}
           />
         </>

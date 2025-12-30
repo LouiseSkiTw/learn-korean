@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { HomeIcon, NotebookText } from 'lucide-react-native';
+import { HomeIcon, NotebookText, Search } from 'lucide-react-native';
 
 const isFocused = (focused: boolean) => (focused ? 'red' : 'black');
 
@@ -24,6 +24,13 @@ export default function TabLayout() {
           tabBarIcon: ({ focused, size }) => (
             <NotebookText color={isFocused(focused)} size={size} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ size, focused }) => <Search color={isFocused(focused)} size={size} />,
         }}
       />
     </Tabs>

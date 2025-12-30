@@ -1,6 +1,6 @@
 // store/swipeStore.ts
 import { create } from 'zustand';
-import { QuizItem } from '../utils/quizData';
+import { QuizItem } from '../quizData';
 
 type SwipeStore = {
   swipedLeft: QuizItem[];
@@ -9,6 +9,15 @@ type SwipeStore = {
   swipeRight: (card: QuizItem) => void;
   resetSwipes: () => void;
 };
+type FlippedStore = {
+  isFlipped: boolean;
+  setIsFlipped: (flipped: boolean) => void;
+};
+
+const useFlippedStore = create<FlippedStore>((set) => ({
+  isFlipped: false,
+  setIsFlipped: (flipped: boolean) => set({ isFlipped: flipped }),
+}));
 
 const useSwipeStore = create<SwipeStore>((set) => ({
   swipedLeft: [],
@@ -25,4 +34,4 @@ const useSwipeStore = create<SwipeStore>((set) => ({
 }));
 
 export type { SwipeStore };
-export default useSwipeStore;
+export { useSwipeStore, useFlippedStore };
