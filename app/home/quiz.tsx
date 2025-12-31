@@ -5,13 +5,12 @@ import { useLocalSearchParams } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
 import Card from '../../components/components/Card';
 import getWords from '../../utils/data.utils';
-import { useSwipeStore, SwipeStore, useFlippedStore } from '../../utils/store/store';
+import { useSwipeStore, SwipeStore } from '../../utils/store/store';
 
 export const SwipeCard = () => {
   const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
   const swipeRight = useSwipeStore((state: SwipeStore) => state.swipeRight);
   const swipeLeft = useSwipeStore((state: SwipeStore) => state.swipeLeft);
-  const setIsFlipped = useFlippedStore((state) => state.setIsFlipped);
 
   const [finished, setFinished] = useState(false);
   const wordsCards = getWords(category, level);
@@ -29,33 +28,22 @@ export const SwipeCard = () => {
             animateOverlayLabelsOpacity
             onSwipedAll={() => setFinished(true)}
             showSecondCard
-            renderCard={(card) => <Card card={card} />}
+            renderCard={(card, index) => <Card key={card.id || index} card={card} />}
             overlayLabels={{
               left: {
-                style: {
-                  label: styles.overlayLeft,
-                  wrapper: styles.overlayWrapperLeft,
-                },
+                style: { label: styles.overlayLeft, wrapper: styles.overlayWrapperLeft },
               },
               right: {
-                style: {
-                  label: styles.overlayRight,
-                  wrapper: styles.overlayWrapperRight,
-                },
+                style: { label: styles.overlayRight, wrapper: styles.overlayWrapperRight },
               },
             }}
             onSwipedRight={(index) => {
-              const card = wordsCards.at(index);
+              const card = wordsCards[index];
               if (card) swipeRight(card);
-              //remove card from deck after swipe right
-              wordsCards.splice(index, 1);
-              setIsFlipped(false);
             }}
             onSwipedLeft={(index) => {
-              const card = wordsCards.at(index);
+              const card = wordsCards[index];
               if (card) swipeLeft(card);
-              wordsCards.splice(index, 1);
-              setIsFlipped(false);
             }}
           />
         </>

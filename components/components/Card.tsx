@@ -1,26 +1,18 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FlipCard from 'react-native-flip-card';
 import { QuizItem } from '../../utils/quizData';
-import { useFlippedStore } from '@/utils/store/store';
 
 type QuizPageProps = {
   card: QuizItem;
 };
 
 const Card = ({ card }: QuizPageProps) => {
-  const isFlipped = useFlippedStore((state) => state.isFlipped);
-  const setIsFlipped = useFlippedStore((state) => state.setIsFlipped);
   const [flip, setFlip] = useState(false);
-
-  const onClickFlip = (flip: boolean) => {
-    setFlip(flip);
-    setIsFlipped(flip);
-  };
 
   return (
     <FlipCard
-      flip={flip || isFlipped}
+      flip={flip}
       flipHorizontal
       flipVertical={false}
       friction={5}
@@ -28,13 +20,14 @@ const Card = ({ card }: QuizPageProps) => {
       style={styles.card}>
       {/* Front side */}
       <View style={styles.face}>
-        <Text style={styles.question} onPress={() => onClickFlip(true)}>
+        <Text style={styles.question} onPress={() => setFlip(true)}>
           {card.word}
         </Text>
       </View>
+
       {/* Back side */}
       <View style={[styles.face, styles.back]}>
-        <Text style={styles.answer} onPress={() => onClickFlip(false)}>
+        <Text style={styles.answer} onPress={() => setFlip(false)}>
           {card.english}
         </Text>
       </View>
@@ -55,7 +48,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     elevation: 5, // Android shadow
     bottom: 30,
+    position: 'relative',
   },
+
   face: {
     flex: 1,
     justifyContent: 'center',

@@ -1,7 +1,7 @@
 import { QuizItem } from '@/utils/quizData';
-import { SearchIcon } from 'lucide-react-native';
 import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, FlatList } from 'react-native';
+import SearchBar from './SearchBar';
 
 const SearchPage = ({ data }: { data: QuizItem[] }) => {
   const [value, setValue] = useState('');
@@ -19,24 +19,19 @@ const SearchPage = ({ data }: { data: QuizItem[] }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <SearchIcon />
-        <TextInput
-          placeholder="Search..."
-          style={styles.searchInput}
-          onChangeText={handleSearch}
-          value={value}
-        />
-      </View>
+      <SearchBar handleSearch={handleSearch} value={value} />
       <View style={styles.wordContainer}>
-        {value.length > 0 &&
-          searchWords.map((word) => (
-            <View key={word.id} style={styles.result}>
+        {value.length > 1 && (
+          <FlatList
+            data={searchWords}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
               <Text>
-                {word.word} - {word.english}
+                {item.word} - {item.english}
               </Text>
-            </View>
-          ))}
+            )}
+          />
+        )}
       </View>
     </View>
   );

@@ -51,7 +51,6 @@ export const getNumber = (level: string) => {
     },
     {} as Record<string, number>
   );
-  console.log('counts', counts);
 
   // Map counts to categories list
   const coutLabel = categories.map((cat) => ({

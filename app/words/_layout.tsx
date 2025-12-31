@@ -10,8 +10,6 @@ export default function WordsPage() {
   const swipeLeft = useSwipeStore((state) => state.swipedLeft);
   const swipeRight = useSwipeStore((state) => state.swipedRight);
 
-  const isFocused = value === 'known' ? 'red' : 'black';
-
   return (
     <View style={styles.container}>
       <Tabs value={value} onValueChange={setValue} className="w-[400px]">
@@ -22,13 +20,13 @@ export default function WordsPage() {
               styles.tabText,
               value === 'known' && styles.activeTab, // add active style
             ]}>
-            <Check style={{ height: 20, width: 20, color: 'black' }} />
+            <Check size={20} color="black" />
             <Text>Known Words</Text>
           </TabsTrigger>
           <TabsTrigger
             value="unknown"
             style={[styles.tabText, value === 'unknown' && styles.activeTab]}>
-            <X style={{ height: 20, width: 20, color: 'black' }} />
+            <X size={20} color="black" />
             <Text>Unknown Words</Text>
           </TabsTrigger>
         </TabsList>
