@@ -1,11 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { QuizItem } from '@/utils/quizData';
 import { useRouter } from 'expo-router';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
-import Search from '../../app/search/_layout';
-import SearchPage from '@/components/components/Search';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useState } from 'react';
-import { SearchIcon } from 'lucide-react-native';
+import SearchBar from './SearchBar';
 
 type DisplayListProps = {
   data: QuizItem[];
@@ -26,24 +24,24 @@ const DisplayList = ({ data }: DisplayListProps) => {
     setDisplayWords(filteredWords);
   };
   return (
-    <View style={styles.container}>
+    <View>
       {data.length > 0 && (
-        <View>
-          <View>
-            <SearchIcon />
-            <TextInput placeholder="Search..." value={value} onChangeText={handleSearch} />
-          </View>
-          {displayWords.map((word) => (
-            <View key={word.id}>
+        <View style={styles.itemContainer}>
+          <SearchBar handleSearch={handleSearch} value={value} />
+          <FlatList
+            style={styles.wordContainer}
+            data={displayWords}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
               <Text>
-                {word.word} - {word.english}
+                {item.word} - {item.english}
               </Text>
-            </View>
-          ))}
+            )}
+          />
         </View>
       )}
       {data.length === 0 && (
-        <View>
+        <View style={styles.container}>
           <Text>No words to display.</Text>
           <View style={styles.btnContainer}>
             <Button style={styles.button} onPress={() => router.push('/home/select')}>
@@ -57,11 +55,28 @@ const DisplayList = ({ data }: DisplayListProps) => {
 };
 const styles = StyleSheet.create({
   container: { marginTop: 20, margin: 30, justifyContent: 'center', gap: 10 },
+  itemContainer: {
+    marginTop: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: 5,
+  },
   btnContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 8,
+  },
+  wordContainer: {
+    padding: 10,
+    borderBottomColor: 'gray',
+    overflow: 'scroll',
+    borderBottomWidth: 1,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 8,
+    width: '90%',
+    gap: 5,
   },
   button: {
     padding: 5,
