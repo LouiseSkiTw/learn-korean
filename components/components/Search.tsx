@@ -1,9 +1,9 @@
-import data, { QuizItem } from '@/utils/quizData';
+import { QuizItem } from '@/utils/quizData';
 import { SearchIcon } from 'lucide-react-native';
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 
-const SearchPage = () => {
+const SearchPage = ({ data }: { data: QuizItem[] }) => {
   const [value, setValue] = useState('');
   const [searchWords, setSearchWords] = useState<QuizItem[]>(data);
 
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    borderBottomColor: 'black',
+    borderColor: 'black',
     borderWidth: 1,
     borderRadius: 8,
     width: '90%',
