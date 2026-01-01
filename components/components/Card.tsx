@@ -10,8 +10,6 @@ type QuizPageProps = {
 const Card = ({ card }: QuizPageProps) => {
   const [flip, setFlip] = useState(false);
 
-  console.log({ card });
-
   return (
     <FlipCard
       flip={flip}
