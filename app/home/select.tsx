@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from '@/components/ui/button';
 import { getNumber, levelCategories } from '../../utils/data.utils';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function WordSelectionPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedLevel, setSelectedLevel] = useState<string>('beginner');
   const router = useRouter();
   const categoriesWithNumbers = getNumber(selectedLevel);
+
+  useFocusEffect(
+    useCallback(() => {
+      setSelectedCategory('all');
+      setSelectedLevel('beginner');
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
