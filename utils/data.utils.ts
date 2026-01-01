@@ -25,24 +25,23 @@ export const levelCategories = [
 ];
 
 const getWords = (category: string, level: string) => {
-  const swipedKnown = useSwipeStore((state: SwipeStore) => state.swipedKnown);
-
   const filteredData =
-    category === 'all'
-      ? data
-      : data
-          .filter((data) => data.classification === category)
-          .filter((item) => !swipedKnown.includes(item));
-
+    category === 'all' ? data : data.filter((data) => data.classification === category);
   const getWordsLevel = level === 'all' ? filteredData : mapLevel(level, filteredData);
 
   return shuffleArray(getWordsLevel ?? []);
 };
 
 export const getNumber = (level: string) => {
-  // Count frequencies
+  const swipedKnown = useSwipeStore((state: SwipeStore) => state.swipedKnown);
+
+  // Count frequencies, excluding known words
   const filter =
-    level === 'all' ? data : data.filter((item) => item.complexity == mapDifficulty(level));
+    level === 'all'
+      ? data.filter((item) => !swipedKnown.includes(item))
+      : data
+          .filter((item) => item.complexity == mapDifficulty(level))
+          .filter((item) => !swipedKnown.includes(item));
 
   const counts = filter.reduce(
     (acc, item) => {
@@ -52,12 +51,14 @@ export const getNumber = (level: string) => {
     {} as Record<string, number>
   );
 
-  // Map counts to categories list
-  const coutLabel = categories.map((cat) => ({
-    label: cat.label,
-    value: cat.value,
-    count: cat.value === 'all' ? filter.length : counts[cat.value] || 0,
-  }));
+  // Map counts to categories list, excluding those with 0 count
+  const coutLabel = categories
+    .map((cat) => ({
+      label: cat.label,
+      value: cat.value,
+      count: cat.value === 'all' ? filter.length : counts[cat.value] || 0,
+    }))
+    .filter((item) => item.count > 0);
 
   return coutLabel;
 };

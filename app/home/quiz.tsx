@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Swiper from 'react-native-deck-swiper';
 
 import { router, useLocalSearchParams } from 'expo-router';
@@ -7,7 +7,7 @@ import Card from '../../components/components/Card';
 import getWords from '../../utils/data.utils';
 import { useSwipeStore, SwipeStore } from '../../utils/store/store';
 import { ArrowBigLeft } from 'lucide-react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { QuizItem } from '@/utils/quizData';
 
 export const SwipeCard = () => {
   const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
@@ -16,30 +16,20 @@ export const SwipeCard = () => {
 
   const [finished, setFinished] = useState(false);
   const wordsCards = getWords(category, level);
-  const [swipedIndices, setSwipedIndices] = useState(new Set<number>());
-
-  const activeIndices = wordsCards.map((_, i) => i).filter((i) => !swipedIndices.has(i));
-  const activeCards = activeIndices.map((i) => wordsCards[i]);
-
-  useFocusEffect(
-    useCallback(() => {
-      setSwipedIndices(new Set<number>());
-      setFinished(false);
-    }, [])
-  );
 
   return (
     <View style={styles.container}>
-      {!finished && activeCards.length > 0 ? (
+      {!finished && wordsCards.length > 0 ? (
         <>
           <Swiper
-            cards={activeCards}
+            cards={wordsCards}
             backgroundColor={'#f0f0f0'}
             disableTopSwipe
             disableBottomSwipe
             verticalSwipe={false}
-            animateOverlayLabelsOpacity
             onSwipedAll={() => setFinished(true)}
+            animateOverlayLabelsOpacity
+            showSecondCard={false}
             renderCard={(card, index) => <Card key={card.id || index} card={card} />}
             overlayLabels={{
               left: {
@@ -50,16 +40,12 @@ export const SwipeCard = () => {
               },
             }}
             onSwipedRight={(index) => {
-              const originalIndex = activeIndices[index];
-              const card = wordsCards[originalIndex];
+              const card = wordsCards[index];
               if (card) swipeKnown(card);
-              setSwipedIndices((prev) => new Set(prev).add(originalIndex));
             }}
             onSwipedLeft={(index) => {
-              const originalIndex = activeIndices[index];
-              const card = wordsCards[originalIndex];
+              const card = wordsCards[index];
               if (card) swipeUnknown(card);
-              setSwipedIndices((prev) => new Set(prev).add(originalIndex));
             }}
           />
         </>
