@@ -25,14 +25,14 @@ export const levelCategories = [
 ];
 
 const getWords = (category: string, level: string) => {
-  const swipedLeft = useSwipeStore((state: SwipeStore) => state.swipedLeft);
+  const swipedKnown = useSwipeStore((state: SwipeStore) => state.swipedKnown);
 
   const filteredData =
     category === 'all'
       ? data
       : data
           .filter((data) => data.classification === category)
-          .filter((item) => !swipedLeft.includes(item));
+          .filter((item) => !swipedKnown.includes(item));
 
   const getWordsLevel = level === 'all' ? filteredData : mapLevel(level, filteredData);
 

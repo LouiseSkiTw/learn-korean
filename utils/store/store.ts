@@ -3,25 +3,25 @@ import { create } from 'zustand';
 import { QuizItem } from '../quizData';
 
 type SwipeStore = {
-  swipedLeft: QuizItem[];
-  swipedRight: QuizItem[];
-  swipeLeft: (card: QuizItem) => void;
-  swipeRight: (card: QuizItem) => void;
+  swipedUnknown: QuizItem[];
+  swipedKnown: QuizItem[];
+  unknownWords: (card: QuizItem) => void;
+  knownWords: (card: QuizItem) => void;
   resetSwipes: () => void;
 };
 
 const useSwipeStore = create<SwipeStore>((set) => ({
-  swipedLeft: [],
-  swipedRight: [],
-  swipeLeft: (card: QuizItem) =>
+  swipedUnknown: [],
+  swipedKnown: [],
+  unknownWords: (card: QuizItem) =>
     set((state) => ({
-      swipedLeft: [...state.swipedLeft, card],
+      swipedUnknown: [...state.swipedUnknown, card],
     })),
-  swipeRight: (card) =>
+  knownWords: (card) =>
     set((state) => ({
-      swipedRight: [...state.swipedRight, card],
+      swipedKnown: [...state.swipedKnown, card],
     })),
-  resetSwipes: () => set({ swipedLeft: [], swipedRight: [] }),
+  resetSwipes: () => set({ swipedUnknown: [], swipedKnown: [] }),
 }));
 
 export type { SwipeStore };

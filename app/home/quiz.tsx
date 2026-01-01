@@ -1,33 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Swiper from 'react-native-deck-swiper';
 
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
 import Card from '../../components/components/Card';
 import getWords from '../../utils/data.utils';
 import { useSwipeStore, SwipeStore } from '../../utils/store/store';
+import { ArrowBigLeft } from 'lucide-react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const SwipeCard = () => {
   const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
-  const swipeRight = useSwipeStore((state: SwipeStore) => state.swipeRight);
-  const swipeLeft = useSwipeStore((state: SwipeStore) => state.swipeLeft);
+  const swipeKnown = useSwipeStore((state: SwipeStore) => state.knownWords);
+  const swipeUnknown = useSwipeStore((state: SwipeStore) => state.unknownWords);
 
   const [finished, setFinished] = useState(false);
   const wordsCards = getWords(category, level);
+  const [swipedIndices, setSwipedIndices] = useState(new Set<number>());
+
+  const activeIndices = wordsCards.map((_, i) => i).filter((i) => !swipedIndices.has(i));
+  const activeCards = activeIndices.map((i) => wordsCards[i]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setSwipedIndices(new Set<number>());
+      setFinished(false);
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
-      {!finished || wordsCards.length > 0 ? (
+      {!finished && activeCards.length > 0 ? (
         <>
           <Swiper
-            cards={wordsCards}
+            cards={activeCards}
             backgroundColor={'#f0f0f0'}
             disableTopSwipe
             disableBottomSwipe
             verticalSwipe={false}
             animateOverlayLabelsOpacity
             onSwipedAll={() => setFinished(true)}
-            showSecondCard
             renderCard={(card, index) => <Card key={card.id || index} card={card} />}
             overlayLabels={{
               left: {
@@ -38,17 +50,22 @@ export const SwipeCard = () => {
               },
             }}
             onSwipedRight={(index) => {
-              const card = wordsCards[index];
-              if (card) swipeRight(card);
+              const originalIndex = activeIndices[index];
+              const card = wordsCards[originalIndex];
+              if (card) swipeKnown(card);
+              setSwipedIndices((prev) => new Set(prev).add(originalIndex));
             }}
             onSwipedLeft={(index) => {
-              const card = wordsCards[index];
-              if (card) swipeLeft(card);
+              const originalIndex = activeIndices[index];
+              const card = wordsCards[originalIndex];
+              if (card) swipeUnknown(card);
+              setSwipedIndices((prev) => new Set(prev).add(originalIndex));
             }}
           />
         </>
       ) : (
-        <View>
+        <View style={styles.noCards}>
+          <ArrowBigLeft onPress={() => router.back()} />
           <Text>No more Words</Text>
         </View>
       )}
@@ -98,6 +115,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
+  },
+
+  noCards: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 5,
   },
 });
 

@@ -1,14 +1,21 @@
 import { TabsList, TabsTrigger, TabsContent, Tabs } from '@/components/ui/tabs';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSwipeStore } from '../../utils/store/store';
 import { Check, X } from 'lucide-react-native';
 import DisplayList from '../../components/components/DisplayList';
+import { useFocusEffect } from 'expo-router';
 
 export default function WordsPage() {
   const [value, setValue] = React.useState<string>('known');
-  const swipeLeft = useSwipeStore((state) => state.swipedLeft);
-  const swipeRight = useSwipeStore((state) => state.swipedRight);
+  const swipeUnknown = useSwipeStore((state) => state.swipedUnknown);
+  const swipeKnown = useSwipeStore((state) => state.swipedKnown);
+
+  useFocusEffect(
+    useCallback(() => {
+      setValue('known');
+    }, [swipeUnknown, swipeKnown])
+  );
 
   return (
     <View style={styles.container}>
@@ -31,10 +38,10 @@ export default function WordsPage() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="known">
-          <DisplayList data={swipeRight} />
+          <DisplayList data={swipeKnown} />
         </TabsContent>
         <TabsContent value="unknown">
-          <DisplayList data={swipeLeft} />
+          <DisplayList data={swipeUnknown} />
         </TabsContent>
       </Tabs>
     </View>
