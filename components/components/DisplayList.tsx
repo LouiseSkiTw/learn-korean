@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { QuizItem } from '@/utils/quizData';
 import { useRouter } from 'expo-router';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 
 type DisplayListProps = {
@@ -13,6 +13,11 @@ const DisplayList = ({ data }: DisplayListProps) => {
   const [displayWords, setDisplayWords] = useState<QuizItem[]>(data);
   const [value, setValue] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    setDisplayWords(data);
+    setValue('');
+  }, [data]);
 
   const handleSearch = (text: string) => {
     setValue(text);
