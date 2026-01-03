@@ -8,11 +8,8 @@ type QuizPageProps = {
 };
 
 const Card = ({ card }: QuizPageProps) => {
-  const [flip, setFlip] = useState(false);
-
   return (
     <FlipCard
-      flip={flip}
       flipHorizontal
       flipVertical={false}
       friction={5}
@@ -20,16 +17,12 @@ const Card = ({ card }: QuizPageProps) => {
       style={styles.card}>
       {/* Front side */}
       <View style={styles.face}>
-        <Text style={styles.question} onPress={() => setFlip(true)}>
-          {card.word}
-        </Text>
+        <Text style={styles.question}>{card.word}</Text>
       </View>
 
       {/* Back side */}
       <View style={[styles.face, styles.back]}>
-        <Text style={styles.answer} onPress={() => setFlip(false)}>
-          {card.english}
-        </Text>
+        <Text style={styles.answer}>{card.english}</Text>
       </View>
     </FlipCard>
   );
@@ -48,7 +41,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     elevation: 5, // Android shadow
     bottom: 30,
-    position: 'relative',
   },
 
   face: {
