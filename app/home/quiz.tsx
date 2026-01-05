@@ -14,11 +14,13 @@ export const SwipeCard = () => {
   const swipeUnknown = useSwipeStore((state: SwipeStore) => state.unknownWords);
 
   const [finished, setFinished] = useState(false);
-  const wordsCards = getWords(category, level);
+  const { shuffledData: wordsCards, isLoading, isError } = getWords(category, level);
 
   return (
     <View style={styles.container}>
-      {!finished && wordsCards.length > 0 ? (
+      {isLoading && <Text>Loading...</Text>}
+      {isError && <Text>An Error has occured</Text>}
+      {!isLoading && !finished && wordsCards.length > 0 ? (
         <>
           <Swiper
             cards={wordsCards}

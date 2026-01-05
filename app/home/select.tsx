@@ -10,7 +10,7 @@ export default function WordSelectionPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedLevel, setSelectedLevel] = useState<string>('beginner');
   const router = useRouter();
-  const categoriesWithNumbers = getNumber(selectedLevel);
+  const { data: categoriesWithNumbers, isLoading, isError } = getNumber(selectedLevel);
 
   useFocusEffect(
     useCallback(() => {
@@ -26,13 +26,14 @@ export default function WordSelectionPage() {
           style={styles.dropdown}
           selectedValue={selectedCategory}
           onValueChange={(value) => setSelectedCategory(value)}>
-          {categoriesWithNumbers.map((item) => (
-            <Picker.Item
-              key={item.value}
-              label={`${item.label} (${item.count})`}
-              value={item.value}
-            />
-          ))}
+          {!isLoading &&
+            categoriesWithNumbers?.map((item) => (
+              <Picker.Item
+                key={item.value}
+                label={`${item.label} (${item.count})`}
+                value={item.value}
+              />
+            ))}
         </Picker>
         <Picker
           style={styles.dropdown}

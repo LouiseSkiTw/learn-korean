@@ -1,8 +1,10 @@
-import { QuizItem } from './quizData';
-import data from './quizData';
-import { useSwipeStore, SwipeStore } from './store/store';
+import {
+  countClassificationsByComplexity,
+  fetchWordsByCategoryAndLevel,
+} from '@/app/home/queries/fetchWords';
+import { useQuery } from '@tanstack/react-query';
 
-const categories = [
+export const categories = [
   { label: 'All', value: 'all' },
   { label: 'Noun', value: 'noun' },
   { label: 'Verb', value: 'verb' },
@@ -25,58 +27,39 @@ export const levelCategories = [
 ];
 
 const getWords = (category: string, level: string) => {
-  const filteredData =
-    category === 'all' ? data : data.filter((data) => data.classification === category);
-  const getWordsLevel = level === 'all' ? filteredData : mapLevel(level, filteredData);
-
-  return shuffleArray(getWordsLevel ?? []);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['words'],
+    queryFn: () => fetchWordsByCategoryAndLevel(category, mapLevel(level)),
+  });
+  const shuffledData = shuffleArray(data ?? []);
+  return { shuffledData, isLoading, isError };
 };
 
 export const getNumber = (level: string) => {
-  const swipedKnown = useSwipeStore((state: SwipeStore) => state.swipedKnown);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['words'],
+    queryFn: () => countClassificationsByComplexity(level),
+  });
 
-  // Count frequencies, excluding known words
-  const filter =
-    level === 'all'
-      ? data.filter((item) => !swipedKnown.includes(item))
-      : data
-          .filter((item) => item.complexity == mapDifficulty(level))
-          .filter((item) => !swipedKnown.includes(item));
+  console.log(data);
 
-  const counts = filter.reduce(
-    (acc, item) => {
-      acc[item.classification] = (acc[item.classification] || 0) + 1;
-      return acc;
-    },
-    {} as Record<string, number>
-  );
-
-  // Map counts to categories list, excluding those with 0 count
-  const coutLabel = categories
-    .map((cat) => ({
-      label: cat.label,
-      value: cat.value,
-      count: cat.value === 'all' ? filter.length : counts[cat.value] || 0,
-    }))
-    .filter((item) => item.count > 0);
-
-  return coutLabel;
+  return { data, isLoading, isError };
 };
 
-const mapLevel = (level: string, filteredData: QuizItem[] | undefined) => {
+const mapLevel = (level: string) => {
   switch (level) {
     case 'beginner':
-      return filteredData?.filter((data) => data.complexity === 'A');
+      return 'A';
     case 'intermediate':
-      return filteredData?.filter((data) => data.complexity === 'B');
+      return 'B';
     case 'advanced':
-      return filteredData?.filter((data) => data.complexity === 'C');
+      return 'C';
     default:
-      break;
+      return '';
   }
 };
 
-const mapDifficulty = (level: string) => {
+export const mapDifficulty = (level: string) => {
   switch (level) {
     case 'beginner':
       return 'A';

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import FlipCard from 'react-native-flip-card';
-import { QuizItem } from '../../utils/quizData';
+import { QuizItem } from '@/app/home/queries/fetchWords';
 
 type QuizPageProps = {
   card: QuizItem;
@@ -10,6 +10,7 @@ type QuizPageProps = {
 const Card = ({ card }: QuizPageProps) => {
   return (
     <FlipCard
+      key={card.id}
       flipHorizontal
       flipVertical={false}
       friction={5}
@@ -29,6 +30,9 @@ const Card = ({ card }: QuizPageProps) => {
 };
 
 const styles = StyleSheet.create({
+  touchable: {
+    flex: 1,
+  },
   card: {
     flex: 1,
     borderRadius: 20,
