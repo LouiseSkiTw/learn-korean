@@ -1,7 +1,7 @@
-import { QuizItem } from '@/utils/quizData';
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList } from 'react-native';
 import SearchBar from './SearchBar';
+import { QuizItem } from '@/app/home/queries/fetchWords';
 
 const SearchPage = ({ data }: { data: QuizItem[] }) => {
   const [value, setValue] = useState('');

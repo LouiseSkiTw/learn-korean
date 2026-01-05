@@ -1,6 +1,6 @@
 // store/swipeStore.ts
 import { create } from 'zustand';
-import { QuizItem } from '../quizData';
+import { QuizItem } from '@/app/home/queries/fetchWords';
 
 type SwipeStore = {
   swipedUnknown: QuizItem[];

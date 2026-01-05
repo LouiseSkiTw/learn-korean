@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import Swiper from 'react-native-deck-swiper';
 
 import { router, useLocalSearchParams } from 'expo-router';
@@ -7,7 +7,6 @@ import Card from '../../components/components/Card';
 import getWords from '../../utils/data.utils';
 import { useSwipeStore, SwipeStore } from '../../utils/store/store';
 import { ArrowBigLeft } from 'lucide-react-native';
-import { QuizItem } from '@/utils/quizData';
 
 export const SwipeCard = () => {
   const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
@@ -30,7 +29,7 @@ export const SwipeCard = () => {
             onSwipedAll={() => setFinished(true)}
             animateOverlayLabelsOpacity
             showSecondCard={false}
-            renderCard={(card, index) => <Card key={card.id || index} card={card} />}
+            renderCard={(card) => <Card card={card} />}
             overlayLabels={{
               left: {
                 style: { label: styles.overlayLeft, wrapper: styles.overlayWrapperLeft },
