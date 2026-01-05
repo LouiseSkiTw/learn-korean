@@ -1,7 +1,4 @@
-import {
-  countClassificationsByComplexity,
-  fetchWordsByCategoryAndLevel,
-} from '@/app/home/queries/fetchWords';
+import { fetchWordsByCategoryAndLevel } from '@/app/home/queries/fetchWordsByCategoryAndLevel';
 import { useQuery } from '@tanstack/react-query';
 
 export const categories = [
@@ -26,27 +23,7 @@ export const levelCategories = [
   { label: 'Advanced', value: 'advanced' },
 ];
 
-const getWords = (category: string, level: string) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['words'],
-    queryFn: () => fetchWordsByCategoryAndLevel(category, mapLevel(level)),
-  });
-  const shuffledData = shuffleArray(data ?? []);
-  return { shuffledData, isLoading, isError };
-};
-
-export const getNumber = (level: string) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['words'],
-    queryFn: () => countClassificationsByComplexity(level),
-  });
-
-  console.log(data);
-
-  return { data, isLoading, isError };
-};
-
-const mapLevel = (level: string) => {
+export const mapLevel = (level: string) => {
   switch (level) {
     case 'beginner':
       return 'A';
@@ -72,7 +49,7 @@ export const mapDifficulty = (level: string) => {
   }
 };
 
-function shuffleArray<T>(array: T[]): T[] {
+export function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -80,4 +57,3 @@ function shuffleArray<T>(array: T[]): T[] {
   }
   return shuffled;
 }
-export default getWords;
