@@ -8,8 +8,8 @@ import { useFocusEffect } from 'expo-router';
 
 export default function WordsPage() {
   const [value, setValue] = React.useState<string>('known');
-  const swipeUnknown = useSwipeStore((state) => state.swipedUnknown);
-  const swipeKnown = useSwipeStore((state) => state.swipedKnown);
+  const swipeUnknown = useSwipeStore.getState().swipedUnknown;
+  const swipeKnown = useSwipeStore.getState().swipedKnown;
 
   useFocusEffect(
     useCallback(() => {
@@ -19,7 +19,7 @@ export default function WordsPage() {
 
   return (
     <View style={styles.container}>
-      <Tabs value={value} onValueChange={setValue} className="w-[400px]">
+      <Tabs value={value} onValueChange={setValue} style={{ width: 400 }}>
         <TabsList style={styles.tabsList}>
           <TabsTrigger
             value="known"

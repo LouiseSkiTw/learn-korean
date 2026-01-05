@@ -9,5 +9,5 @@ export default function Search() {
     queryKey: ['words'],
     queryFn: fetchWords,
   });
-  return <View style={{ flex: 1 }}>{data && <SearchPage data={data} />}</View>;
+  return <View style={{ flex: 1 }}>{<SearchPage data={data} />}</View>;
 }
