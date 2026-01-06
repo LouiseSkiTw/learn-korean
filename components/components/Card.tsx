@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import FlipCard from 'react-native-flip-card';
-import { QuizItem } from '@/app/home/queries/fetchWords';
+import { QuizItem } from '@/utils/data.interface';
 
 type QuizPageProps = {
   card: QuizItem;

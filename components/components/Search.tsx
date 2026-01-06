@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import SearchBar from './SearchBar';
 import { QuizItem } from '@/utils/data.interface';
 

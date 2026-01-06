@@ -1,10 +1,7 @@
-import { QueryClient } from '@tanstack/react-query';
 import { Tabs } from 'expo-router';
 import { HomeIcon, NotebookText, Search } from 'lucide-react-native';
 
 const isFocused = (focused: boolean) => (focused ? 'red' : 'black');
-
-const queryClient = new QueryClient();
 
 export default function TabLayout() {
   return (
