@@ -7,7 +7,6 @@ export type Count = {
 };
 
 const responseScheme = z.object({
-  firebaseId: z.string(),
   id: z.string(),
   hiddenNumbering: z.number(),
   frequencyRank: z.string(),

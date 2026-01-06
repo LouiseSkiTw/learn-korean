@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList } from 'react-native';
 import SearchBar from './SearchBar';
-import { QuizItem } from '@/app/home/queries/queries.interface';
+import { QuizItem } from '@/utils/data.interface';
 
-const SearchPage = ({ data }: { data: QuizItem[] | undefined }) => {
+const SearchPage = ({ data }: { data: QuizItem[] }) => {
   const [value, setValue] = useState('');
-  const [searchWords, setSearchWords] = useState<QuizItem[] | undefined>(data);
+  const [searchWords, setSearchWords] = useState<QuizItem[]>(data);
 
   const handleSearch = (text: string) => {
     setValue(text);
-    const filteredWords = data?.filter(
+    const filteredWords = data.filter(
       (word) =>
         word.word.toLowerCase().startsWith(text.toLowerCase()) ||
         word.english.toLowerCase().startsWith(text.toLowerCase())
@@ -20,21 +20,19 @@ const SearchPage = ({ data }: { data: QuizItem[] | undefined }) => {
   return (
     <View style={styles.container}>
       <SearchBar handleSearch={handleSearch} value={value} />
-      {data && data && (
-        <View style={styles.wordContainer}>
-          {value.length > 1 && (
-            <FlatList
-              data={searchWords}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <Text>
-                  {item.word} - {item.english}
-                </Text>
-              )}
-            />
-          )}
-        </View>
-      )}
+      <View style={styles.wordContainer}>
+        {value.length > 1 && (
+          <FlatList
+            data={searchWords}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <Text>
+                {item.word} - {item.english}
+              </Text>
+            )}
+          />
+        )}
+      </View>
     </View>
   );
 };

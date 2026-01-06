@@ -4,11 +4,9 @@ import Swiper from 'react-native-deck-swiper';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StyleSheet, View, Text } from 'react-native';
 import Card from '../../components/components/Card';
-import { mapLevel } from '../../utils/data.utils';
+import getWords from '../../utils/data.utils';
 import { useSwipeStore, SwipeStore } from '../../utils/store/store';
 import { ArrowBigLeft } from 'lucide-react-native';
-import { useQuery } from '@tanstack/react-query';
-import { fetchWordsByCategoryAndLevel } from './queries/fetchWordsByCategoryAndLevel';
 
 export const SwipeCard = () => {
   const { category, level } = useLocalSearchParams<{ category: string; level: string }>();
@@ -16,19 +14,11 @@ export const SwipeCard = () => {
   const swipeUnknown = useSwipeStore((state: SwipeStore) => state.unknownWords);
 
   const [finished, setFinished] = useState(false);
-  const {
-    data: wordsCards,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['words'],
-    queryFn: () => fetchWordsByCategoryAndLevel(category, mapLevel(level)),
-  });
+  const wordsCards = getWords(category, level);
+
   return (
     <View style={styles.container}>
-      {isLoading && <Text>Loading...</Text>}
-      {isError && <Text>An Error has occured</Text>}
-      {!isLoading && !finished && wordsCards && wordsCards.length > 0 && (
+      {!finished && wordsCards.length > 0 ? (
         <>
           <Swiper
             cards={wordsCards}
@@ -58,9 +48,7 @@ export const SwipeCard = () => {
             }}
           />
         </>
-      )}
-
-      {finished && (
+      ) : (
         <View style={styles.noCards}>
           <ArrowBigLeft onPress={() => router.back()} />
           <Text>No more Words</Text>

@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useState } from 'react';
 import SearchBar from './SearchBar';
-import { QuizItem } from '@/app/home/queries/fetchWords';
+import { QuizItem } from '@/utils/data.interface';
 
 type DisplayListProps = {
   data: QuizItem[];
